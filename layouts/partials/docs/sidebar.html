@@ -1,4 +1,7 @@
 <aside class="nav-docs">
+{{ if in .RelPermalink "v0.1" }}
+	{{ partial "docs/kapacitor/v0.1/sidebar.html" . }}
+{{ end }}
 {{ if in .RelPermalink "v0.9" }}
 	{{ partial "docs/v0.9/sidebar.html" . }}
 {{ end }}

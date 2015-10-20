@@ -5,7 +5,7 @@
 	<article class="article-docs article-main-column">
 
 		<h1>{{ .Title }}</h1>
-		{{ if not (in .RelPermalink "v0.9") }}
+		{{ if (and (not (in .RelPermalink "v0.9")) (not (in .RelPermalink "kapacitor" )))}}
 		<div class="flash">
 			<p><b>Warning! This version of InfluxDB is no longer in active development.</b></p>
 			<b><a href="/docs/v0.9/introduction/overview.html">Version 0.9</a> is the most recent version of InfluxDB.</b>
