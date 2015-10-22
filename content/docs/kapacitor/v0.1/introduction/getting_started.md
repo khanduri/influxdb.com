@@ -10,11 +10,13 @@ and running a Kapacitor daemon.
 What you will need
 ------------------
 
-* InfluxDB - While Kapacitor does not require InfluxDB it is the easiest to setup and so we will use it in this guide.
+Don't worry about installing anything yet, instructions are found below.
+
+* [InfluxDB](/docs/v0.9/introduction/installation.html)  - While Kapacitor does not require InfluxDB it is the easiest to setup and so we will use it in this guide.
     You will need InfluxDB >= 0.9.5
-* Telegraf  - We will use a specific Telegraf config to send data to InfluxDB so that the examples Kapacitor tasks have context.
+* [Telegraf](https://github.com/influxdb/telegraf#installation) - We will use a specific Telegraf config to send data to InfluxDB so that the examples Kapacitor tasks have context.
     You will need Telegraf >= 0.1.9 since the names of measurements change prior to that version.
-* Kapacitor - You can get the latest Kapacitor binaries for your OS at the [downloads](/download/#download) page.
+* [Kapacitor](https://github/com/influxdb/kapacitor) - You can get the latest Kapacitor binaries for your OS at the [downloads](/download/#download) page.
 * Terminal - Kapacitor's interface is via a CLI and so you will need a basic terminal to issue commands.
 
 
