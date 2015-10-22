@@ -23,9 +23,7 @@ Don't worry about installing anything yet, instructions are found below.
 The Use Case
 ------------
 
-For the guide we will follow the classic use case of triggering an alert for high cpu usage on a server.
-It is simple use case but will make learning Kapacitor easy since we do not have to think about the complexity 
-of a difficult task. At the end of the guide some more complex examples will be presented as exercises for the reader.
+For this guide we will follow the classic use case of triggering an alert for high cpu usage on a server.
 
 The Process
 -----------
@@ -157,6 +155,8 @@ Turn off debug logging:
 kapacitor level info
 ```
 
+If you are not receiving data yet check each layer: Telegraf -> InfluxDB -> Kapacitor.
+
 If you want to see the subscriptions in InfluxDB run the query `SHOW SUBSCRIPTIONS` and it will return the information InfluxDB has on subscriptions.
 Notice the Kapacitor hostname, that is why it is important to make sure the hostname is configured correctly.
 
@@ -186,7 +186,7 @@ stream
     .alert()
         .crit("value <  70")
         // Whenever we get an alert write it to a file.
-        .log("/tmp/alerts.log")
+        .log("./alerts.log")
 ```
 
 Put the above script into a file called `cpu_alert.tick` in your working directory.
@@ -231,7 +231,7 @@ Time is measured by the data points that each node receives; therefore the resul
 Check the log, did we get any alerts?
 
 ```sh
-cat /tmp/alerts.log
+cat ./alerts.log
 ```
 
 Depending on how busy the server was maybe not. Let's modify the task to be really sensitive so that we know the alerts are working.
@@ -286,7 +286,7 @@ stream
     .alert()
         // Compare values to running mean and standard deviation
         .crit("sigma(value) > 3")
-        .log("/tmp/alerts.log")
+        .log("./alerts.log")
 ```
 
 Just like that we have a dynamic threshold and if cpu usage drops in the day or spike at night we will get an alert!
@@ -315,7 +315,7 @@ stream
     .alert()
         // Compare values to running mean and standard deviation
         .crit("sigma(percentile) > 3")
-        .log("/tmp/alerts.log")
+        .log("./alerts.log")
         // post alert data to custom endpoint
         .post("http://alerthandler")
 ```
