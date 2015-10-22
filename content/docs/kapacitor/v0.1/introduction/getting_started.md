@@ -304,7 +304,7 @@ InfluxDB and then process that data in batches.
 While triggering an alert based off cpu usage is more suited for the streaming case you can get the basic idea
 of how `batch` tasks work by following the same use case.
 
-This TICK script does the same thing as the earlier stream task but as a batch task.
+This TICKscript does the same thing as the earlier stream task but as a batch task.
 
 ```javascript
 batch

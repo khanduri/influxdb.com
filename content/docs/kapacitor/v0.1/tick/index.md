@@ -1,10 +1,10 @@
 ---
-title: TICK Language Reference
+title: TICKscript Language Reference
 ---
 
 Kapacitor uses a DSL named `TICK`. The DSL is used to define the pipelines for processing data in Kapacitor.
 
-The TICK language is an invocation chaining language. Each script has a flat scope and each variable in the scope
+The TICKscript language is an invocation chaining language. Each script has a flat scope and each variable in the scope
 defines methods that can be called on it. These methods come in two flavors.
 
 * Property methods -- Modifies the node they are called on and returns a reference to the same node.
@@ -12,13 +12,13 @@ defines methods that can be called on it. These methods come in two flavors.
 
 The following reference documentation list each node's `Property` methods and `Chaining` methods along with examples and descriptions of the function of the node.
 
-Every TICK script will have either a `stream` or `batch` variable defined depending on the type of task you want to run.
+Every TICKscript will have either a `stream` or `batch` variable defined depending on the type of task you want to run.
 The `stream` and `batch` variables are an instance of a [StreamNode](/docs/kapacitor/v0.1/tick/stream_node.html) or [BatchNode](/docs/kapacitor/v0.1/tick/batch_node.html) respectively.
 
 Pipelines
 ---------
 
-Kapacitor uses TICK scripts to define data processing pipelines.
+Kapacitor uses TICKscripts to define data processing pipelines.
 A pipeline is set of nodes that process data and edges that connect the nodes.
 Pipelines in Kapacitor are directed acyclic graphs ([DAGs](https://en.wikipedia.org/wiki/Directed_acyclic_graph)) meaning 
 each edge has a direction that data flows and there cannot be any cycles in the pipeline.
@@ -29,7 +29,7 @@ Each edge has a type, one of the following:
 * BatchEdge -- an edge that transfers data in chunks instead of one point at a time.
 * MapReduceEdge -- this is special case where the data being transfered is unique to the specific map reduce job.
 
-When connecting nodes the TICK language will not prevent you from connecting edges of the wrong type but rather the check will be performed at runtime.
+When connecting nodes the TICKscript language will not prevent you from connecting edges of the wrong type but rather the check will be performed at runtime.
 So just be aware that a syntactically correct script may define a pipeline that is invalid.
 
 
@@ -93,7 +93,7 @@ Invalid number literals:
 
 ### Durations
 
-TICK supports durations literals. They are of the form of an InfluxQL duration. See https://influxdb.com/docs/v0.9/query_language/spec.html#literals
+TICKscript supports durations literals. They are of the form of an InfluxQL duration. See https://influxdb.com/docs/v0.9/query_language/spec.html#literals
 
 
 
