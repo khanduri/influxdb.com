@@ -25,6 +25,8 @@ independently.
 Chaining Methods
 ----------------
 
+Chaining methods create a new node in the pipeline as a child of the calling node. They do not modify the calling node.
+
 ### Alert
 
 Create an alert node, which can trigger alerts.

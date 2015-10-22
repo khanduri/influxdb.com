@@ -1,9 +1,9 @@
 ---
-title: Expression Language
+title: Expressions
 ---
 
 Kapacitor uses an expression language apart from the TICKscript DSL.
-These expressions are used to define transformations on data points as well as define boolean expressions that act as filters.
+These expressions are used to define transformations on data points as well as define boolean conditions that act as filters.
 The expression language is a superset of the InfluxQL `WHERE` clause expressions.
 As such any expression that works as a `WHERE` clause in InfluxQL works in the Kapacitor expression language.
 In addition to InfluxQL syntax the expressions can have function calls that operate on the fields of a data point.

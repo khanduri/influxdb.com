@@ -30,6 +30,8 @@ increasing for the window node.
 Properties
 ----------
 
+Property methods modify state on the calling node. They do not add another node to the pipeline and always return a reference to the calling node.
+
 ### Every
 
 How often the current window is emitted into the pipeline.
@@ -52,6 +54,8 @@ node.period(value time.Duration)
 
 Chaining Methods
 ----------------
+
+Chaining methods create a new node in the pipeline as a child of the calling node. They do not modify the calling node.
 
 ### Alert
 

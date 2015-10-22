@@ -2,7 +2,7 @@
 title: TICKscript Language Reference
 ---
 
-Kapacitor uses a DSL named `TICK`. The DSL is used to define the pipelines for processing data in Kapacitor.
+Kapacitor uses a DSL named `TICKscript`. The DSL is used to define the pipelines for processing data in Kapacitor.
 
 The TICKscript language is an invocation chaining language. Each script has a flat scope and each variable in the scope
 defines methods that can be called on it. These methods come in two flavors.
@@ -71,8 +71,19 @@ Syntax
 
 ### Strings
 
-Strings are enclosed in double quotes `"` or triple single quotes `'''`.
-There is no escaping in strings, they are treated a literals inside their respective quotes.
+There are three ways to write string literals:
+
+1. Single quoted strings with backslash escaped single quotes.
+
+    `'single \' quoted'` -> `single ' quoted`
+
+2. Double quoted strings with backslash escaped double quotes.
+
+    `"double \" quoted"` -> `double " quoted`
+
+3. Triple single quoted strings with no escaping.
+
+    `'''triple \" quoted'''` -> `triple \" quoted`
 
 ### Numbers
 

@@ -29,6 +29,8 @@ are then processed by the rest of the pipeline.
 Properties
 ----------
 
+Property methods modify state on the calling node. They do not add another node to the pipeline and always return a reference to the calling node.
+
 ### GroupBy
 
 Group the data by a set of dimensions.
@@ -67,6 +69,8 @@ node.query(value string)
 
 Chaining Methods
 ----------------
+
+Chaining methods create a new node in the pipeline as a child of the calling node. They do not modify the calling node.
 
 ### Alert
 

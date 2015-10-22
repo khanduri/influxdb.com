@@ -29,6 +29,8 @@ and then transformed to calculate a combined field.
 Properties
 ----------
 
+Property methods modify state on the calling node. They do not add another node to the pipeline and always return a reference to the calling node.
+
 ### As
 
 The alias names to be used as a dot prefix for all field names for each
@@ -55,6 +57,8 @@ node.rename(value string)
 
 Chaining Methods
 ----------------
+
+Chaining methods create a new node in the pipeline as a child of the calling node. They do not modify the calling node.
 
 ### Alert
 
