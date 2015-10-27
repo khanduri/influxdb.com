@@ -12,9 +12,9 @@ Example:
 ```javascript
    stream
         .alert()
-            .info("value > 10")
-            .warn("value > 20")
-            .crit("value > 30")
+            .info(lambda: "value" > 10)
+            .warn(lambda: "value" > 20)
+            .crit(lambda: "value" > 30)
             .post("http://example.com/api/alert")
 ```
 
@@ -41,7 +41,7 @@ An empty value indicates the level is invalid and is skipped.
 
 
 ```javascript
-node.crit(value string)
+node.crit(value tick.Node)
 ```
 
 
@@ -96,7 +96,7 @@ An empty value indicates the level is invalid and is skipped.
 
 
 ```javascript
-node.info(value string)
+node.info(value tick.Node)
 ```
 
 
@@ -127,6 +127,6 @@ An empty value indicates the level is invalid and is skipped.
 
 
 ```javascript
-node.warn(value string)
+node.warn(value tick.Node)
 ```
 

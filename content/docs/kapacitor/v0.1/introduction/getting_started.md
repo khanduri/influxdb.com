@@ -165,11 +165,11 @@ Put the script below into a file called `cpu_alert.tick` in your working directo
 ```javascript
 stream
     // Select just the cpu_usage_idle measurement from our example database.
-    .from('''"kapacitor_example"."default"."cpu_usage_idle"''')
+    .from('"kapacitor_example"."default"."cpu_usage_idle"')
     .alert()
-        .crit("value <  70")
+        .crit(lambda: "value" <  70)
         // Whenever we get an alert write it to a file.
-        .log("./alerts.log")
+        .log('./alerts.log')
 ```
 
 
@@ -216,7 +216,7 @@ cat ./alerts.log
 ```
 
 Depending on how busy the server was maybe not. Let's modify the task to be really sensitive so that we know the alerts are working.
-Change the `.crit("value < 70")` line in the TICKscript to `.crit("value < 100")`. Now every data point that was received during 
+Change the `.crit(lambda: "value" < 70)` line in the TICKscript to `.crit(lambda: "value" < 100)`. Now every data point that was received during 
 the recording will trigger an alert.
 
 
@@ -250,11 +250,11 @@ It will then trigger an alert if the values are more than 3 standard deviations 
 
 ```javascript
 stream
-    .from('''"kapacitor_example"."default"."cpu_usage_idle"''')
+    .from('"kapacitor_example"."default"."cpu_usage_idle"')
     .alert()
         // Compare values to running mean and standard deviation
-        .crit("sigma(value) > 3")
-        .log("./alerts.log")
+        .crit(lambda: sigma("value") > 3)
+        .log('./alerts.log')
 ```
 
 Just like that we have a dynamic threshold and if cpu usage drops in the day or spikes at night we will get an alert!
@@ -272,22 +272,23 @@ based off the 95th percentile.
 
 ```javascript
 stream
-    .from('''"kapacitor_example"."default"."cpu_usage_idle"''')
+    .from('"kapacitor_example"."default"."cpu_usage_idle"')
     // create a new field called 'used' which inverts the idle cpu.
-    .apply(expr("used", "100 - value"))
-    .groupBy("service", "datacenter")
+    .eval(lambda: 100 - "value")
+        .as('used')
+    .groupBy('service', 'datacenter')
     .window()
         .period(1m)
         .every(1m)
     // calculate the 95th percentile of the used cpu.
-    .mapReduce(influxql.percentile("used", 95))
+    .mapReduce(influxql.percentile('used', 95))
     .alert()
         // Compare values to running mean and standard deviation
-        .warn("sigma(percentile) > 2.5")
-        .crit("sigma(percentile) > 3")
-        .log("./alerts.log")
+        .warn(lambda: sigma("percentile") > 2.5)
+        .crit(lambda: sigma("percentile") > 3)
+        .log('./alerts.log')
         // post alert data to custom endpoint
-        .post("http://alerthandler")
+        .post('http://alerthandler')
 ```
 
 Something so simple as defining an alert can quickly be extended to apply to a much larger scope.
@@ -315,7 +316,7 @@ batch
     .period(5m)
     .groupBy(time(1m))
     .alert()
-        .crit("value < 70")
+        .crit(lambda: "value" < 70)
 ```
 
 To define this task do:

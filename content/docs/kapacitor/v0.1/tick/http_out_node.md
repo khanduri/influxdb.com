@@ -18,9 +18,9 @@ Example:
         .window()
             .period(10s)
             .every(5s)
-        .mapReduce(influxql.top("value", 10))
+        .mapReduce(influxql.top('value', 10))
         //Publish the top 10 results over the last 10s updated every 5s.
-        .httpOut("top10")
+        .httpOut('top10')
 ```
 
 

@@ -11,33 +11,15 @@ Example:
 
 
 ```javascript
-    // Define a basic batch node that queries for idle cpu.
-    var cpu = batch
-        .query('''
-               SELECT mean("idle")
-               FROM "tests"."default".cpu
-               WHERE dc = 'nyc'
-        ''')
-        .period(10s)
-        .groupBy(time(2s))
-    // Filter down a fork of the cpu data for serverA
-    cpu
-        .fork()
-        .where("host = 'serverA'")
-        .mapReduce(influxql.top("mean", 10)
-        .window()
-            .period(1m)
-            .every(1m)
-        .httpOut("serverA")
-    // Filter down a fork of the cpu data for serverB
-    cpu
-        .fork()
-        .where("host = 'serverB'")
-        .mapReduce(influxql.top("mean", 10)
-        .window()
-            .period(1m)
-            .every(1m)
-        .httpOut("serverB")
+ var sums = stream
+     .groupBy('service', 'host')
+     .mapReduce(influxdb.sum('value'))
+ //Watch particular host for issues.
+ sums
+    .where(lambda: "host" == 'h001.example.com')
+    .alert()
+        .crit(lambda: TRUE)
+        .email('user@example.com')
 ```
 
 
@@ -59,17 +41,17 @@ node.alert()
 Returns: [AlertNode](/docs/kapacitor/v0.1/tick/alert_node.html)
 
 
-### Apply
+### Eval
 
-Create an apply node that will apply the given transformation function to each data point.
+Create an eval node that will evaluate the given transformation function to each data point.
 See the built-in function `expr` in order to write in-line custom transformation functions.
 
 
 ```javascript
-node.apply(transform interface{})
+node.eval(transform tick.Node)
 ```
 
-Returns: [ApplyNode](/docs/kapacitor/v0.1/tick/apply_node.html)
+Returns: [EvalNode](/docs/kapacitor/v0.1/tick/eval_node.html)
 
 
 ### GroupBy
@@ -190,7 +172,7 @@ Create a new node that filters the data stream by a given expression.
 
 
 ```javascript
-node.where(expression string)
+node.where(expression tick.Node)
 ```
 
 Returns: [WhereNode](/docs/kapacitor/v0.1/tick/where_node.html)

@@ -18,7 +18,7 @@ Example:
          WHERE "host" = 'serverA'
      ''')
      .period(10s)
-     .groupBy(time(2s), "cpu")
+     .groupBy(time(2s), 'cpu')
      ...
 ```
 
@@ -84,17 +84,17 @@ node.alert()
 Returns: [AlertNode](/docs/kapacitor/v0.1/tick/alert_node.html)
 
 
-### Apply
+### Eval
 
-Create an apply node that will apply the given transformation function to each data point.
+Create an eval node that will evaluate the given transformation function to each data point.
 See the built-in function `expr` in order to write in-line custom transformation functions.
 
 
 ```javascript
-node.apply(transform interface{})
+node.eval(transform tick.Node)
 ```
 
-Returns: [ApplyNode](/docs/kapacitor/v0.1/tick/apply_node.html)
+Returns: [EvalNode](/docs/kapacitor/v0.1/tick/eval_node.html)
 
 
 ### HttpOut
@@ -203,7 +203,7 @@ Create a new node that filters the data stream by a given expression.
 
 
 ```javascript
-node.where(expression string)
+node.where(expression tick.Node)
 ```
 
 Returns: [WhereNode](/docs/kapacitor/v0.1/tick/where_node.html)

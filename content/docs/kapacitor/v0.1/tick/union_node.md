@@ -12,12 +12,12 @@ Example:
 
 
 ```javascript
-    var logins = stream.fork().from("logins")
-    var logouts = stream.fork().from("logouts")
-    var frontpage = stream.fork().from("frontpage")
+    var logins = stream.fork().from('logins')
+    var logouts = stream.fork().from('logouts')
+    var frontpage = stream.fork().from('frontpage')
     // Union all user actions into a single stream
     logins.union(logouts, frontpage)
-            .rename("user_actions")
+            .rename('user_actions')
         ...
 ```
 
@@ -57,17 +57,17 @@ node.alert()
 Returns: [AlertNode](/docs/kapacitor/v0.1/tick/alert_node.html)
 
 
-### Apply
+### Eval
 
-Create an apply node that will apply the given transformation function to each data point.
+Create an eval node that will evaluate the given transformation function to each data point.
 See the built-in function `expr` in order to write in-line custom transformation functions.
 
 
 ```javascript
-node.apply(transform interface{})
+node.eval(transform tick.Node)
 ```
 
-Returns: [ApplyNode](/docs/kapacitor/v0.1/tick/apply_node.html)
+Returns: [EvalNode](/docs/kapacitor/v0.1/tick/eval_node.html)
 
 
 ### GroupBy
@@ -188,7 +188,7 @@ Create a new node that filters the data stream by a given expression.
 
 
 ```javascript
-node.where(expression string)
+node.where(expression tick.Node)
 ```
 
 Returns: [WhereNode](/docs/kapacitor/v0.1/tick/where_node.html)
