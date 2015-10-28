@@ -37,32 +37,15 @@ Example
 -------
 
 ```javascript
-    // Define a basic batch node that queries for idle cpu.
-    var cpu = batch
-        .query('''
-               SELECT mean("idle")
-               FROM "tests"."default".cpu
-               WHERE dc = 'nyc'
-        ''')
-        .period(10s)
-        .groupBy(time(2s))
-    // Filter down a fork of the cpu data for serverA
-    cpu
-        .fork()
-        .where("host = 'serverA'")
-        .mapReduce(influxql.top("mean", 10)
-        .window()
-            .period(1m)
-            .every(1m)
-        .httpOut("serverA")
-    // Filter down a fork of the cpu data for serverB
-    cpu
-        .fork()
-        .where("host = 'serverB'")
-        .mapReduce(influxql.top("mean", 10)
-        .window()
-            .period(1m)
-            .every(1m)
-        .httpOut("serverB")
+stream
+    .eval(lambda: "errors" / "total")
+        .as('error_percent')
+    // Write the transformed data to InfluxDB
+    .influxDBOut()
+        .database('mydb')
+        .retentionPolicy('myrp')
+        .measurement('errors')
+        .tag('kapacitor', 'true')
+        .tag('version', '0.1')
 ```
 

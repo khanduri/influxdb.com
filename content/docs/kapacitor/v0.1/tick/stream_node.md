@@ -8,14 +8,12 @@ streamed to Kapacitor via any of its inputs.
 The stream node allows you to select which portion of the stream
 you want to process.
 
-If you want to process multiple independent streams see the `fork` chaining method.
-
 Example:
 
 
 ```javascript
     stream
-           .from('"mydb"."myrp"."mymeasurement"')
+        .from('"mydb"."myrp"."mymeasurement"')
            .where(lambda: "host" =~ /logger\d+/)
         .window()
         ...
@@ -30,23 +28,6 @@ Properties
 ----------
 
 Property methods modify state on the calling node. They do not add another node to the pipeline and always return a reference to the calling node.
-
-### From
-
-Which database, retention policy and measurement to select.
-This is equivalent to the FROM statement in an InfluxQL
-query. As such shortened selectors can be supplied
-(i.e. &#34;mymeasurement&#34; is valid and selects all data points
-from the measurement &#34;mymeasurement&#34; independent
-of database or retention policy).
-
-If empty then all data points are considered to match.
-
-
-```javascript
-node.from(value string)
-```
-
 
 ### Where
 
@@ -93,34 +74,36 @@ node.eval(transform tick.Node)
 Returns: [EvalNode](/docs/kapacitor/v0.1/tick/eval_node.html)
 
 
-### Fork
+### From
 
-Fork the current stream. This is useful if you want to
-select multiple different data streams.
+Which database, retention policy and measurement to select.
+This is equivalent to the FROM statement in an InfluxQL
+query. As such shortened selectors can be supplied
+(i.e. &#34;mymeasurement&#34; is valid and selects all data points
+from the measurement &#34;mymeasurement&#34; independent
+of database or retention policy).
+
+Creates a new stream node that can be further
+filtered using the Where property.
+From can be called multiple times to create multiple
+independent forks of the data stream.
 
 Example:
 
 
 ```javascript
-    var errors = stream.fork().from("errors")
-    var requests = stream.fork().from("requests")
-```
-
-Example:
-
-
-```javascript
-    // This will not work since you are just changing
-    // the 'from' condition on the same stream node.
-    var errors = stream.from("errors")
-    var requests = stream.from("requests")
-    // 'errors' is now the same as 'requests'.
+    var cpu = stream.from('cpu')
+    var load = stream.from('load')
+    // Join cpu and load streams and do further processing
+    cpu.join(load)
+            .as('cpu', 'load')
+        ...
 ```
 
 
 
 ```javascript
-node.fork()
+node.from(from string)
 ```
 
 Returns: [StreamNode](/docs/kapacitor/v0.1/tick/stream_node.html)

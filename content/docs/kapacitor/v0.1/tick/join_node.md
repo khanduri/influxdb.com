@@ -12,12 +12,15 @@ Example:
 
 
 ```javascript
-    var errors = stream.fork().from('errors')
-    var requests = stream.fork().from('requests')
-    // Join the errors and requests stream
+    var errors = stream.from('errors')
+    var requests = stream.from('requests')
+    // Join the errors and requests streams
     errors.join(requests)
+            // Provide prefix names for the fields of the data points.
             .as('errors', 'requests')
-            .rename('error_rate')
+            .streamName('error_rate')
+        // Both the "value" fields from each parent have been prefixed
+        // with the respective names 'errors' and 'requests'.
         .eval(lambda: "errors.value" / "requests.value"))
            .as('rate')
         ...
@@ -34,10 +37,14 @@ Property methods modify state on the calling node. They do not add another node 
 
 ### As
 
-The alias names to be used as a dot prefix for all field names for each
-data point respectively.
+Prefix names for all fields from the respective nodes.
+Each field from the parent nodes will be prefixed with the provided name and a &#39;.&#39;.
+See the example above.
+
 The name `nLeft` corresponds to the node on the left (i.e `leftNode.join(rightNode)`).
 The name `nRight` corresponds to the node on the right.
+The names cannot have a dot &#39;.&#39; character.
+
 
 
 ```javascript
@@ -45,14 +52,14 @@ node.as(nLeft string, nRight string)
 ```
 
 
-### Rename
+### StreamName
 
 The name of this new joined data stream.
 If empty the name of the left parent is used.
 
 
 ```javascript
-node.rename(value string)
+node.streamName(value string)
 ```
 
 
